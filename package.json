@@ -1,0 +1,51 @@
+{
+  "name": "grepagent",
+  "version": "0.1.0",
+  "description": "AI-powered grep tool that converts natural language queries into regex patterns",
+  "main": "dist/cli.js",
+  "type": "module",
+  "bin": {
+    "grepagent": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "node --loader ts-node/esm src/cli.ts --help",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "grep",
+    "ripgrep",
+    "ai",
+    "llm",
+    "search",
+    "regex",
+    "natural-language",
+    "cli"
+  ],
+  "author": "Grepagent Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/grepagent.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/grepagent/issues"
+  },
+  "homepage": "https://github.com/yourusername/grepagent#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@types/node": "^24.9.1",
+    "axios": "^1.12.2",
+    "chalk": "^4.1.2",
+    "inquirer": "^8.2.7",
+    "ora": "^5.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.9"
+  }
+}
