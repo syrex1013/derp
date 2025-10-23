@@ -67,8 +67,12 @@ export function runEngine(
   const hasColorFlag = expandedArgs.some(arg => arg.startsWith('--color'));
   const colorArgs = hasColorFlag ? [] : ['--color=always'];
 
-  // Correct order: grep -E 'pattern' --color=always args...
-  const finalArgs = ['-E', regex, ...colorArgs, ...expandedArgs];
+  // Add recursive flag if not specified and no explicit files given
+  const hasRecursiveFlag = expandedArgs.some(arg => arg === '-r' || arg === '-R' || arg === '--recursive');
+  const recursiveArgs = (expandedArgs.length === 0 || !hasRecursiveFlag) ? ['-r'] : [];
+
+  // Correct order: grep -E -r 'pattern' --color=always args...
+  const finalArgs = ['-E', ...recursiveArgs, regex, ...colorArgs, ...expandedArgs];
   const command = `${engine} ${finalArgs.map(quote).join(' ')}`;
 
   if (dryRun) {
@@ -136,7 +140,11 @@ export function previewMatches(engine: Engine, regex: string, args: string[], li
   // Expand glob patterns in arguments
   const expandedArgs = expandGlobPatterns(args);
 
-  const previewArgs = ['-E', regex, ...expandedArgs];
+  // Add recursive flag if not specified
+  const hasRecursiveFlag = expandedArgs.some(arg => arg === '-r' || arg === '-R' || arg === '--recursive');
+  const recursiveArgs = (expandedArgs.length === 0 || !hasRecursiveFlag) ? ['-r'] : [];
+
+  const previewArgs = ['-E', ...recursiveArgs, regex, ...expandedArgs];
 
   try {
     const result = spawnSync(enginePath, previewArgs, {
