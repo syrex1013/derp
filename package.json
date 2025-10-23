@@ -1,6 +1,6 @@
 {
   "name": "derpgrep",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Natural language grep for regex-challenged developers (because regex is hard, okay?)",
   "main": "dist/cli.js",
   "type": "module",
@@ -28,7 +28,10 @@
     "scripts": "dist/**/*.js",
     "assets": [],
     "outputPath": "dist/bin",
-    "targets": ["node18-macos-x64", "node18-linux-x64"]
+    "targets": [
+      "node18-macos-x64",
+      "node18-linux-x64"
+    ]
   },
   "keywords": [
     "grep",
