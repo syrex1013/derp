@@ -5,7 +5,7 @@
   "main": "dist/cli.js",
   "type": "module",
   "bin": {
-    "derp": "./dist/cli.js"
+    "derp": "dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
@@ -36,7 +36,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/syrex1013/derp.git"
+    "url": "git+https://github.com/syrex1013/derp.git"
   },
   "bugs": {
     "url": "https://github.com/syrex1013/derp/issues"
