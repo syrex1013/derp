@@ -1,6 +1,6 @@
 {
   "name": "derp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Natural language grep for regex-challenged developers (because regex is hard, okay?)",
   "main": "dist/cli.js",
   "type": "module",
