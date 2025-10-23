@@ -3,7 +3,7 @@ node_modules
 dist/
 npm-debug.log*
 *.tgz
-.grepagent.json
+.derp.json
 *.log
 .env
 .vscode/

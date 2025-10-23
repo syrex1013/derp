@@ -1,28 +1,97 @@
-# 🤖 Grepagent
+<div align="center">
 
-AI-powered grep tool that converts natural language queries into regex patterns.
+# 🤖 Derp
+
+<p align="center">
+  <strong>Natural language grep for regex-challenged developers</strong>
+</p>
+
+<p align="center">
+  Because <code>[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}</code> is too hard
+</p>
+
+<p align="center">
+  <a href="https://github.com/yourusername/derp/actions/workflows/ci.yml">
+    <img src="https://github.com/yourusername/derp/actions/workflows/ci.yml/badge.svg" alt="CI Status">
+  </a>
+  <a href="https://www.npmjs.com/package/derp">
+    <img src="https://img.shields.io/npm/v/derp.svg" alt="npm version">
+  </a>
+  <a href="https://www.npmjs.com/package/derp">
+    <img src="https://img.shields.io/npm/dm/derp.svg" alt="npm downloads">
+  </a>
+  <a href="https://github.com/yourusername/derp/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
+  </a>
+  <a href="https://nodejs.org">
+    <img src="https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg" alt="Node.js">
+  </a>
+  <a href="https://codecov.io/gh/yourusername/derp">
+    <img src="https://codecov.io/gh/yourusername/derp/branch/main/graph/badge.svg" alt="Coverage">
+  </a>
+</p>
+
+<p align="center">
+  <a href="#-features">Features</a> •
+  <a href="#-installation">Installation</a> •
+  <a href="#-quick-start">Quick Start</a> •
+  <a href="#-usage">Usage</a> •
+  <a href="#-providers">Providers</a> •
+  <a href="#-contributing">Contributing</a>
+</p>
+
+<img src="https://raw.githubusercontent.com/yourusername/derp/main/assets/demo.gif" alt="Derp Demo" width="800">
+
+</div>
+
+---
+
+## 🌟 Why Derp?
+
+Because let's face it: you probably Googled "regex for email" at least three times this week. Derp uses AI to convert your plain English into those weird hieroglyphics called regex, so you can pretend you totally knew how to write `(?:[a-z0-9!#$%&'*+/=?^_\`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")` from memory.
+
+```bash
+# Instead of pretending you know this:
+grep -E '\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b' -r .
+
+# Just admit defeat and type this:
+derp "email addresses" -r .
+```
 
 ## ✨ Features
 
-- 🗣️ **Natural Language Interface** - Use plain English instead of regex
-- 🤖 **Multi-Provider Support** - Works with Ollama, LM Studio, OpenAI, Bedrock, and OpenRouter
-- ⚡ **Fast & Efficient** - Uses ripgrep or grep under the hood
-- 🎨 **Beautiful CLI** - Colorized output with preview
-- 🔧 **Configurable** - Easy setup and customization
+<table>
+  <tr>
+    <td align="center">🗣️<br><strong>Natural Language</strong><br>Use plain English instead of regex syntax</td>
+    <td align="center">🤖<br><strong>Multi-Provider AI</strong><br>Ollama, OpenAI, Claude, and more</td>
+    <td align="center">⚡<br><strong>Fast & Efficient</strong><br>Powered by ripgrep or grep</td>
+  </tr>
+  <tr>
+    <td align="center">🎨<br><strong>Beautiful Output</strong><br>Colorized and easy to read</td>
+    <td align="center">🔧<br><strong>Highly Configurable</strong><br>Customize to your workflow</td>
+    <td align="center">🔒<br><strong>Privacy First</strong><br>Works offline with local models</td>
+  </tr>
+</table>
 
 ## 📦 Installation
 
-### npm
+### Via npm (Recommended)
 
 ```bash
-npm install -g grepagent
+npm install -g derp
+```
+
+### Via yarn
+
+```bash
+yarn global add derp
 ```
 
 ### From Source
 
 ```bash
-git clone https://github.com/yourusername/grepagent.git
-cd grepagent
+git clone https://github.com/yourusername/derp.git
+cd derp
 npm install
 npm run build
 npm link
@@ -30,103 +99,180 @@ npm link
 
 ## 🚀 Quick Start
 
-1. **Initialize configuration:**
+### 1️⃣ Initialize Configuration
 
 ```bash
-grepagent --init
+derp --init
 ```
 
-2. **Use natural language to search:**
+Choose your preferred AI provider and model.
+
+### 2️⃣ Start Searching (Like a Pro, Sort Of)
 
 ```bash
-grepagent "emails in files" -r .
-grepagent "TODO comments" src/
-grepagent "IP addresses" logs/*.log
+# Find email addresses (without crying)
+derp "email addresses" -r .
+
+# Find TODO comments (procrastination tracker)
+derp "TODO comments" src/
+
+# Find IP addresses in logs (for when things go wrong)
+derp "IP addresses" logs/*.log
+
+# Find phone numbers (stalker mode activated)
+derp "US phone numbers" contacts.txt
 ```
 
 ## 📖 Usage
 
-```bash
-grepagent <natural-language-query> [grep-options]
-```
-
-### Options
-
-- `--init` - Initialize configuration
-- `--config` - Show current configuration
-- `--dry-run` - Show generated command without executing
-- `--explain` - Show LLM explanation
-- `--help` - Show help message
-
-### Examples
+### Basic Syntax
 
 ```bash
-# Find email addresses recursively
-grepagent "email addresses" -r .
-
-# Find TODO comments with dry-run
-grepagent "TODO comments" src/ --dry-run
-
-# Find URLs with explanation
-grepagent "URLs starting with https" . --explain
-
-# Find phone numbers in specific files
-grepagent "US phone numbers" contacts/*.txt
-
-# Find dates in log files
-grepagent "dates in YYYY-MM-DD format" logs/
+derp "<natural-language-query>" [grep-options] [paths...]
 ```
 
-## 🔧 Configuration
+### Command Options
 
-### Supported Providers
+| Option | Description |
+|--------|-------------|
+| `--init` | Initialize or update configuration |
+| `--config` | Display current configuration |
+| `--dry-run` | Show generated command without executing |
+| `--explain` | Show AI explanation of the regex |
+| `--help` | Display help information |
 
-#### Ollama (Default)
+### Real-World Examples
+
+<details>
+<summary><strong>📧 Finding Patterns</strong></summary>
+
+```bash
+# Email addresses
+derp "email addresses" -r .
+
+# URLs
+derp "URLs starting with https" docs/
+
+# Credit card numbers (with case-insensitive flag)
+derp "credit card numbers" -i data/
+
+# Dates in various formats
+derp "dates in YYYY-MM-DD format" logs/
+```
+</details>
+
+<details>
+<summary><strong>💻 Code Searching</strong></summary>
+
+```bash
+# TODO comments
+derp "TODO comments" src/
+
+# Function definitions
+derp "function definitions in JavaScript" src/
+
+# Import statements
+derp "Python import statements" --include="*.py" .
+
+# API keys or tokens
+derp "API keys or tokens" -i config/
+```
+</details>
+
+<details>
+<summary><strong>📊 Log Analysis</strong></summary>
+
+```bash
+# Error messages
+derp "error messages" logs/*.log
+
+# IP addresses
+derp "IPv4 addresses" /var/log/
+
+# Timestamps
+derp "timestamps in HH:MM:SS format" logs/
+
+# HTTP status codes
+derp "HTTP 4xx or 5xx errors" access.log
+```
+</details>
+
+<details>
+<summary><strong>🔍 Data Extraction</strong></summary>
+
+```bash
+# Phone numbers
+derp "US phone numbers" contacts/
+
+# Social security numbers
+derp "social security numbers" records.txt
+
+# Hex colors
+derp "hexadecimal color codes" styles.css
+
+# MAC addresses
+derp "MAC addresses" network-config.txt
+```
+</details>
+
+## 🤖 Supported AI Providers
+
+### Ollama (Default - Free, Local)
+
+Perfect for privacy-focused users. Runs completely offline.
 
 ```bash
 export OLLAMA_HOST=http://localhost:11434
-grepagent --init
+derp --init
 # Select: ollama
-# Model: llama3.2
+# Model: llama3.2, qwen2.5-coder, etc.
 ```
 
-#### LM Studio
+### LM Studio (Free, Local)
+
+Another great local option with a user-friendly interface.
 
 ```bash
 export LMSTUDIO_URL=http://localhost:1234
-grepagent --init
+derp --init
 # Select: lmstudio
 ```
 
-#### OpenAI
+### OpenAI (Cloud)
+
+For maximum accuracy with GPT models.
 
 ```bash
 export OPENAI_API_KEY=your-api-key
-grepagent --init
+derp --init
 # Select: openai
-# Model: gpt-4
+# Model: gpt-4o, gpt-4o-mini, gpt-3.5-turbo
 ```
 
-#### OpenRouter
+### OpenRouter (Cloud)
+
+Access multiple models through a single API.
 
 ```bash
 export OPENROUTER_API_KEY=your-api-key
-grepagent --init
+derp --init
 # Select: openrouter
-# Model: anthropic/claude-3-sonnet
+# Model: anthropic/claude-3-sonnet, google/gemini-pro, etc.
 ```
 
-#### AWS Bedrock
+### AWS Bedrock (Cloud)
+
+Enterprise-grade AI with AWS infrastructure.
 
 ```bash
 export BEDROCK_URL=https://your-bedrock-proxy
-grepagent --init
+derp --init
 # Select: bedrock
 ```
 
-### Configuration File
+## ⚙️ Configuration
 
-Configuration is stored in `~/.grepagent.json`:
+Configuration is stored in `~/.derp.json`:
 
 ```json
 {
@@ -136,46 +282,152 @@ Configuration is stored in `~/.grepagent.json`:
 }
 ```
 
+### Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `OLLAMA_HOST` | Ollama server URL (default: http://localhost:11434) |
+| `LMSTUDIO_URL` | LM Studio server URL (default: http://localhost:1234) |
+| `OPENAI_API_KEY` | OpenAI API key |
+| `OPENROUTER_API_KEY` | OpenRouter API key |
+| `BEDROCK_URL` | AWS Bedrock proxy URL |
+
 ## 🛠️ Development
 
+### Setup
+
 ```bash
+# Clone repository
+git clone https://github.com/yourusername/derp.git
+cd derp
+
 # Install dependencies
 npm install
 
 # Build
 npm run build
 
-# Development mode
-npm run dev
+# Run tests
+npm test
 
-# Link locally
+# Watch mode for tests
+npm run test:watch
+
+# Coverage report
+npm run test:coverage
+
+# Link for local development
 npm link
+```
+
+### Project Structure
+
+```
+derp/
+├── src/
+│   ├── __tests__/        # Test files
+│   ├── providers/        # AI provider implementations
+│   ├── cli.ts           # CLI entry point
+│   ├── config.ts        # Configuration management
+│   ├── engines.ts       # Grep/ripgrep engines
+│   ├── llmRouter.ts     # LLM routing logic
+│   └── prompts.ts       # Prompt templates
+├── dist/                # Compiled output
+└── .github/
+    └── workflows/       # CI/CD pipelines
 ```
 
 ## 📋 Requirements
 
-- Node.js 18+
-- `grep` or `ripgrep` (rg) installed
-- One of the supported LLM providers configured
+- **Node.js**: 18.0.0 or higher
+- **Grep Tool**: `grep` (built-in on Unix) or `ripgrep` (recommended)
+- **AI Provider**: At least one configured provider (Ollama, OpenAI, etc.)
+
+### Installing ripgrep (Recommended)
+
+```bash
+# macOS
+brew install ripgrep
+
+# Ubuntu/Debian
+sudo apt install ripgrep
+
+# Windows (via Chocolatey)
+choco install ripgrep
+
+# Or use cargo
+cargo install ripgrep
+```
+
+## 🧪 Testing
+
+Derp includes comprehensive test coverage:
+
+```bash
+# Run all tests
+npm test
+
+# Watch mode
+npm run test:watch
+
+# Coverage report
+npm run test:coverage
+
+# Lint check
+npm run lint
+```
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Development Guidelines
+
+- Write tests for new features
+- Follow existing code style
+- Update documentation as needed
+- Ensure CI passes before submitting PR
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
-- Built with [TypeScript](https://www.typescriptlang.org/)
-- Uses [chalk](https://github.com/chalk/chalk) for colorization
-- Uses [inquirer](https://github.com/SBoudrias/Inquirer.js) for interactive prompts
-- Uses [ora](https://github.com/sindresorhus/ora) for spinners
-- Uses [axios](https://github.com/axios/axios) for HTTP requests
+Built with amazing open-source tools:
+
+- [TypeScript](https://www.typescriptlang.org/) - Type-safe JavaScript
+- [chalk](https://github.com/chalk/chalk) - Terminal string styling
+- [inquirer](https://github.com/SBoudrias/Inquirer.js) - Interactive CLI prompts
+- [ora](https://github.com/sindresorhus/ora) - Elegant terminal spinners
+- [axios](https://github.com/axios/axios) - HTTP client
+- [ripgrep](https://github.com/BurntSushi/ripgrep) - Fast search tool
+- [Jest](https://jestjs.io/) - Testing framework
 
 ## 🔗 Links
 
-- [GitHub Repository](https://github.com/yourusername/grepagent)
-- [npm Package](https://www.npmjs.com/package/grepagent)
-- [Issue Tracker](https://github.com/yourusername/grepagent/issues)
+- [📦 npm Package](https://www.npmjs.com/package/derp)
+- [📚 Documentation](https://github.com/yourusername/derp#readme)
+- [🐛 Issue Tracker](https://github.com/yourusername/derp/issues)
+- [💬 Discussions](https://github.com/yourusername/derp/discussions)
+
+## 🌟 Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/derp&type=Date)](https://star-history.com/#yourusername/derp&Date)
+
+---
+
+<div align="center">
+
+Made with ❤️ by the Derp community
+
+[⬆ back to top](#-derp)
+
+</div>
+

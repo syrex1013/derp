@@ -1,17 +1,20 @@
 {
-  "name": "grepagent",
+  "name": "derp",
   "version": "0.1.0",
-  "description": "AI-powered grep tool that converts natural language queries into regex patterns",
+  "description": "Natural language grep for regex-challenged developers (because regex is hard, okay?)",
   "main": "dist/cli.js",
   "type": "module",
   "bin": {
-    "grepagent": "./dist/cli.js"
+    "derp": "./dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
     "dev": "node --loader ts-node/esm src/cli.ts --help",
     "prepublishOnly": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo 'Tests will run with: npx jest@29' && NODE_OPTIONS='--experimental-vm-modules' npx --yes jest@29 --passWithNoTests",
+    "test:watch": "NODE_OPTIONS='--experimental-vm-modules' npx --yes jest@29 --watch",
+    "test:coverage": "NODE_OPTIONS='--experimental-vm-modules' npx --yes jest@29 --coverage --passWithNoTests",
+    "lint": "tsc --noEmit"
   },
   "keywords": [
     "grep",
@@ -23,16 +26,16 @@
     "natural-language",
     "cli"
   ],
-  "author": "Grepagent Contributors",
+  "author": "Derp Contributors",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/grepagent.git"
+    "url": "https://github.com/yourusername/derp.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/grepagent/issues"
+    "url": "https://github.com/yourusername/derp/issues"
   },
-  "homepage": "https://github.com/yourusername/grepagent#readme",
+  "homepage": "https://github.com/yourusername/derp#readme",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -46,6 +49,10 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@types/inquirer": "^9.0.9"
+    "@jest/globals": "^29.7.0",
+    "@types/inquirer": "^9.0.9",
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5"
   }
 }

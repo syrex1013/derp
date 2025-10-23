@@ -1,14 +1,14 @@
-# Contributing to Grepagent
+# Contributing to Derp
 
-Thank you for your interest in contributing to Grepagent! 🎉
+Thank you for your interest in contributing to Derp! 🎉
 
 ## Getting Started
 
 1. **Fork the repository**
 2. **Clone your fork:**
    ```bash
-   git clone https://github.com/yourusername/grepagent.git
-   cd grepagent
+   git clone https://github.com/yourusername/derp.git
+   cd derp
    ```
 
 3. **Install dependencies:**
@@ -50,7 +50,7 @@ Thank you for your interest in contributing to Grepagent! 🎉
 ## Project Structure
 
 ```
-grepagent/
+derp/
 ├── src/
 │   ├── cli.ts              # Main CLI entry point
 │   ├── config.ts           # Configuration management

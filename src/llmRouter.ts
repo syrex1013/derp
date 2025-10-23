@@ -1,4 +1,4 @@
-import { GrepAgentConfig } from './config.js';
+import { DerpConfig } from './config.js';
 import { regexPrompt } from './prompts.js';
 import { OllamaProvider } from './providers/ollama.js';
 import { LMStudioProvider } from './providers/lmstudio.js';
@@ -9,7 +9,7 @@ import { Provider, CompletionResult } from './providers/base.js';
 
 export async function naturalQueryToRegex(
   intent: string,
-  config: GrepAgentConfig
+  config: DerpConfig
 ): Promise<CompletionResult> {
   const { system, user } = regexPrompt(intent);
   

@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { Provider, CompletionResult } from './base.js';
+import { Provider, CompletionResult, parseCompletionResult } from './base.js';
 
 export class OpenAIProvider implements Provider {
-  constructor(private apiKey: string, private model: string = 'gpt-4') {}
+  constructor(private apiKey: string, private model: string = 'gpt-4o-mini') {}
 
   async complete(systemPrompt: string, userPrompt: string): Promise<CompletionResult> {
     if (!this.apiKey) {
@@ -19,7 +19,8 @@ export class OpenAIProvider implements Provider {
             { role: 'user', content: userPrompt }
           ],
           temperature: 0.1,
-          max_tokens: 500,
+          max_tokens: 512,
+          response_format: { type: 'json_object' }
         },
         {
           headers: {
@@ -31,17 +32,9 @@ export class OpenAIProvider implements Provider {
       );
 
       const content = response.data.choices?.[0]?.message?.content || '';
-      const regex = this.extractRegex(content);
-      
-      return { regex, explanation: content };
+      return parseCompletionResult(content);
     } catch (error: any) {
       throw new Error(`OpenAI API error: ${error.message}`);
     }
-  }
-
-  private extractRegex(content: string): string {
-    const lines = content.trim().split('\n');
-    const cleaned = lines[0].replace(/^["'`]|["'`]$/g, '').trim();
-    return cleaned;
   }
 }

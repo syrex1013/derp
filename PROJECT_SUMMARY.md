@@ -1,8 +1,8 @@
-# Grepagent Project Summary
+# Derp Project Summary
 
 ## ✅ Project Created Successfully
 
-The full Grepagent TypeScript project has been created based on the specifications in GREPAGENT.md.
+The full Derp TypeScript project has been created based on the specifications in DERP.md.
 
 ## 📦 What Was Built
 
@@ -16,7 +16,7 @@ The full Grepagent TypeScript project has been created based on the specificatio
    - Help and usage information
 
 2. **Configuration System** (`src/config.ts`)
-   - Persistent configuration in `~/.grepagent.json`
+   - Persistent configuration in `~/.derp.json`
    - Support for multiple LLM providers
    - Environment variable integration
 
@@ -84,7 +84,7 @@ All providers implement the common `Provider` interface:
    - Commit conventions
 
 3. **LICENSE** - MIT License
-4. **GREPAGENT.md** - Build specification
+4. **DERP.md** - Build specification
 5. **examples.sh** - Example usage script
 
 ### Configuration Files
@@ -104,7 +104,7 @@ All providers implement the common `Provider` interface:
 3. **.gitignore**
    - node_modules
    - dist/
-   - .grepagent.json
+   - .derp.json
    - Log files
 
 4. **.github/workflows/release.yml**
@@ -198,7 +198,7 @@ The project is ready for:
 
 ## 🎉 Project Status
 
-**✅ COMPLETE** - All components from GREPAGENT.md have been implemented:
+**✅ COMPLETE** - All components from DERP.md have been implemented:
 
 - ✅ Project initialization
 - ✅ Folder structure

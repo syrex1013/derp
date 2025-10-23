@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Example usage script for Grepagent
+# Example usage script for Derp
 
-echo "🤖 Grepagent Examples"
+echo "🤖 Derp Examples"
 echo "===================="
 echo ""
 
-# Check if grepagent is available
+# Check if derp is available
 if ! command -v node &> /dev/null; then
     echo "❌ Node.js is not installed"
     exit 1
@@ -50,7 +50,7 @@ echo ""
 
 echo "🔧 Configuration:"
 echo ""
-echo "Grepagent supports multiple LLM providers:"
+echo "Derp supports multiple LLM providers:"
 echo "  - Ollama (default): http://localhost:11434"
 echo "  - LM Studio: http://localhost:1234"
 echo "  - OpenAI: Set OPENAI_API_KEY"

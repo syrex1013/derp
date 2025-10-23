@@ -1,6 +1,6 @@
-# Grepagent — Developer Build Guide for AI Agent
+# Derp — Developer Build Guide for AI Agent
 
-This document is a **machine-readable build sequence** designed for an AI agent or automation pipeline. It defines **how to create the full Grepagent TypeScript project from scratch**, including folder structure, file creation order, content templates, build verification, and packaging.
+This document is a **machine-readable build sequence** designed for an AI agent or automation pipeline. It defines **how to create the full Derp TypeScript project from scratch**, including folder structure, file creation order, content templates, build verification, and packaging.
 
 ---
 
@@ -11,7 +11,7 @@ This document is a **machine-readable build sequence** designed for an AI agent 
 **Commands:**
 
 ```bash
-mkdir grepagent && cd grepagent
+mkdir derp && cd derp
 npm init -y
 npm install typescript ts-node pkg chalk axios inquirer ora
 npm install --save-dev @types/node
@@ -39,7 +39,7 @@ mkdir -p .github/workflows
 **Expected Tree:**
 
 ```
-grepagent/
+derp/
 ├─ src/
 │  ├─ cli.ts
 │  ├─ config.ts
@@ -76,7 +76,7 @@ grepagent/
 
 **Purpose:** Manage persistent configuration.
 
-**Contents:** Create `GrepAgentConfig` interface, `loadConfig()`, and `saveConfig()` using `~/.grepagent.json` path.
+**Contents:** Create `GrepAgentConfig` interface, `loadConfig()`, and `saveConfig()` using `~/.derp.json` path.
 
 ### 3.3 `src/prompts.ts`
 
@@ -148,7 +148,7 @@ export async function naturalQueryToRegex(intent, cfg) {
 5. Preview first matches via `spawnSync`.
 6. Run engine.
 
-Include banner header (`chalk.bold.blue("grepagent")`).
+Include banner header (`chalk.bold.blue("derp")`).
 
 ### 3.9 `package.json`
 
@@ -161,7 +161,7 @@ Include banner header (`chalk.bold.blue("grepagent")`).
   "scripts": {
     "build": "tsc",
     "dev": "node --loader ts-node/esm src/cli.ts --help",
-    "pkg": "pkg --targets node18-macos-x64,node18-linux-x64 --output dist/grepagent dist/cli.js",
+    "pkg": "pkg --targets node18-macos-x64,node18-linux-x64 --output dist/derp dist/cli.js",
     "prepublishOnly": "npm run build"
   }
 }
@@ -179,7 +179,7 @@ node_modules
 /dist
 npm-debug.log*
 *.tgz
-.grepagent.json
+.derp.json
 ```
 
 ### 3.12 `LICENSE`
@@ -204,8 +204,8 @@ Use GitHub Actions workflow defined in the Project Guide.
 npm install
 npm run build
 npm link
-grepagent --help
-grepagent "emails in files" -r . --dry-run --explain
+derp --help
+derp "emails in files" -r . --dry-run --explain
 ```
 
 Expected output:
@@ -224,12 +224,12 @@ Expected output:
 ```bash
 npm run pkg
 mkdir release
-cp dist/grepagent release/
-zip -r grepagent-v0.1.0.zip release
+cp dist/derp release/
+zip -r derp-v0.1.0.zip release
 ```
 
 Expected artifact:
-`release/grepagent-v0.1.0.zip`
+`release/derp-v0.1.0.zip`
 
 ---
 
@@ -238,12 +238,12 @@ Expected artifact:
 ### GitHub
 
 ```bash
-gh repo create your/grepagent --public --source=. --remote=origin
+gh repo create your/derp --public --source=. --remote=origin
 git push -u origin main
 git tag v0.1.0
 git push --tags
-gh release create v0.1.0 release/grepagent-v0.1.0.zip \
-  --title "grepagent v0.1.0" \
+gh release create v0.1.0 release/derp-v0.1.0.zip \
+  --title "derp v0.1.0" \
   --notes "Initial AI-powered grep release."
 ```
 
@@ -257,7 +257,7 @@ npm publish --access public
 
 ### Homebrew
 
-Create new tap repo `homebrew-grepagent` and add formula referencing GitHub release asset.
+Create new tap repo `homebrew-derp` and add formula referencing GitHub release asset.
 
 ### AUR
 
@@ -266,7 +266,7 @@ Generate PKGBUILD (template provided) and push via `aurpublish`.
 ### Debian
 
 ```bash
-fpm -s dir -t deb -n grepagent -v 0.1.0 dist/grepagent=/usr/bin/grepagent
+fpm -s dir -t deb -n derp -v 0.1.0 dist/derp=/usr/bin/derp
 ```
 
 ---
@@ -290,10 +290,10 @@ fpm -s dir -t deb -n grepagent -v 0.1.0 dist/grepagent=/usr/bin/grepagent
 | Check                | Expected Result                  |
 | -------------------- | -------------------------------- |
 | `tsc` exit code      | 0                                |
-| `grepagent --help`   | Displays usage info              |
-| `grepagent 'emails'` | Generates regex and runs grep    |
-| `grepagent --init`   | Creates ~/.grepagent.json        |
-| `npm run pkg`        | Produces dist/grepagent binaries |
+| `derp --help`   | Displays usage info              |
+| `derp 'emails'` | Generates regex and runs grep    |
+| `derp --init`   | Creates ~/.derp.json        |
+| `npm run pkg`        | Produces dist/derp binaries |
 | `zip` artifact       | Exists in /release folder        |
 
 ---
@@ -312,8 +312,8 @@ BEDROCK_URL=https://sigv4-proxy
 
 ## 🔚 Final Expected Outputs
 
-* CLI executable `grepagent`
-* npm package published (`grepagent`)
+* CLI executable `derp`
+* npm package published (`derp`)
 * GitHub Release `v0.1.0` with binaries
 * Optional: Homebrew formula, AUR PKGBUILD, Debian `.deb`
 

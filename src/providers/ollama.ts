@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Provider, CompletionResult } from './base.js';
+import { Provider, CompletionResult, parseCompletionResult } from './base.js';
 
 export class OllamaProvider implements Provider {
   constructor(
@@ -18,23 +18,17 @@ export class OllamaProvider implements Provider {
         stream: false,
         options: {
           temperature: 0.1,
-        }
+          num_predict: 512,  // Limit response length for speed
+        },
+        format: 'json'  // Request JSON format from Ollama
       }, {
         timeout: 30000,
       });
 
       const content = response.data.message?.content || '';
-      const regex = this.extractRegex(content);
-      
-      return { regex, explanation: content };
+      return parseCompletionResult(content);
     } catch (error: any) {
       throw new Error(`Ollama API error: ${error.message}`);
     }
-  }
-
-  private extractRegex(content: string): string {
-    const lines = content.trim().split('\n');
-    const cleaned = lines[0].replace(/^["'`]|["'`]$/g, '').trim();
-    return cleaned;
   }
 }

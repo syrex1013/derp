@@ -2,19 +2,30 @@
 
 import chalk from 'chalk';
 import ora from 'ora';
-import { loadConfig, saveConfig, GrepAgentConfig } from './config.js';
+import { loadConfig, saveConfig, DerpConfig } from './config.js';
 import { naturalQueryToRegex } from './llmRouter.js';
 import { resolveEngine, runEngine, previewMatches, Engine } from './engines.js';
 import { isProbablyNaturalLanguage, quote } from './utils.js';
 
+const derpMessages = [
+  'Consulting the regex gods for you, you derp...',
+  'Converting your words to nerd hieroglyphics...',
+  'Asking AI because you forgot regex again...',
+  'Translating from human to regex-speak...',
+  'Generating the pattern you should\'ve memorized...',
+  'Doing the regex homework you avoided...',
+  'Saving you from Googling "regex for..."...',
+  'Making up for your regex education gaps...',
+];
+
 function printBanner(): void {
-  console.log(chalk.bold.blue('\n🤖 grepagent') + chalk.dim(' - AI-powered grep\n'));
+  console.log(chalk.bold.blue('\n🤖 derp') + chalk.dim(' - Natural language grep for regex-challenged developers\n'));
 }
 
 function printHelp(): void {
   printBanner();
   console.log(chalk.bold('USAGE:'));
-  console.log('  grepagent <natural-language-query> [grep-options]\n');
+  console.log('  derp <natural-language-query> [grep-options]\n');
   console.log(chalk.bold('OPTIONS:'));
   console.log('  --init              Initialize configuration');
   console.log('  --config            Show current configuration');
@@ -22,11 +33,11 @@ function printHelp(): void {
   console.log('  --explain           Show LLM explanation');
   console.log('  --help              Show this help\n');
   console.log(chalk.bold('EXAMPLES:'));
-  console.log('  grepagent "emails in files" -r .');
-  console.log('  grepagent "TODO comments" src/ --dry-run');
-  console.log('  grepagent "IP addresses" logs/*.log --explain\n');
+  console.log('  derp "emails in files" -r .');
+  console.log('  derp "TODO comments" src/ --dry-run');
+  console.log('  derp "IP addresses" logs/*.log --explain\n');
   console.log(chalk.bold('CONFIGURATION:'));
-  console.log('  Run `grepagent --init` to configure your LLM provider.\n');
+  console.log('  Run `derp --init` to configure your LLM provider.\n');
 }
 
 async function initConfig(): Promise<void> {
@@ -48,7 +59,7 @@ async function initConfig(): Promise<void> {
       type: 'input',
       name: 'model',
       message: 'Model name:',
-      default: 'llama3.2',
+      default: 'qwen2.5:1.5b',
     },
     {
       type: 'input',
@@ -84,7 +95,7 @@ async function initConfig(): Promise<void> {
     },
   ]);
 
-  saveConfig(answers as GrepAgentConfig);
+  saveConfig(answers as DerpConfig);
 }
 
 function showConfig(): void {
@@ -127,50 +138,50 @@ async function main(): Promise<void> {
   }
 
   const query = filteredArgs[0];
-  const grepArgs = filteredArgs.slice(1);
+  const userProvidedArgs = filteredArgs.slice(1);
 
   if (!isProbablyNaturalLanguage(query)) {
     console.log(chalk.yellow('⚠️  Query doesn\'t look like natural language. Using as-is as regex.\n'));
     const { engine } = resolveEngine();
-    runEngine(engine, query, grepArgs, dryRun);
+    runEngine(engine, query, userProvidedArgs, dryRun);
     return;
   }
 
-  printBanner();
-
   const config = loadConfig();
-  const spinner = ora('Generating regex with AI...').start();
+  const randomMessage = derpMessages[Math.floor(Math.random() * derpMessages.length)];
+  const spinner = ora(randomMessage).start();
 
   try {
     const result = await naturalQueryToRegex(query, config);
-    spinner.succeed('Regex generated');
-
-    console.log(chalk.cyan('\n📋 Regex: ') + chalk.bold(result.regex));
-
-    if (explain && result.explanation) {
-      console.log(chalk.gray('\n💡 Explanation:'));
-      console.log(chalk.gray(result.explanation));
-    }
+    spinner.stop();
+    process.stdout.write('\r\x1b[K'); // Clear the spinner line
 
     const { engine } = resolveEngine();
 
-    if (!dryRun && grepArgs.length > 0) {
-      const preview = previewMatches(engine, result.regex, grepArgs, 3);
-      if (preview.length > 0) {
-        console.log(chalk.gray('\n🔍 Preview (first 3 matches):'));
-        preview.forEach((line) => console.log(chalk.gray('  ' + line)));
+    // Merge LLM-generated args with user-provided args (user args take precedence)
+    const finalArgs = [...result.args, ...userProvidedArgs];
+
+    if (dryRun) {
+      const cmdArgs = ['-E', result.regex, ...finalArgs].map(quote).join(' ');
+      console.log(`${engine} ${cmdArgs}`);
+      if (result.explanation && explain) {
+        console.log(chalk.gray('\nExplanation: ') + result.explanation);
       }
-    }
-
-    const cmdArgs = ['-E', result.regex, ...grepArgs].map(quote).join(' ');
-    console.log(chalk.magenta(`\n🚀 Command: ${engine} ${cmdArgs}\n`));
-
-    if (!dryRun) {
-      runEngine(engine, result.regex, grepArgs, false);
+    } else if (explain) {
+      console.log(chalk.cyan('Regex: ') + result.regex);
+      console.log(chalk.cyan('Args: ') + finalArgs.join(' '));
+      if (result.explanation) {
+        console.log(chalk.gray('Explanation: ') + result.explanation);
+      }
+      console.log(); // blank line before results
+      runEngine(engine, result.regex, finalArgs, false);
+    } else {
+      runEngine(engine, result.regex, finalArgs, false);
     }
   } catch (error: any) {
-    spinner.fail('Failed to generate regex');
-    console.error(chalk.red(`\n❌ Error: ${error.message}\n`));
+    spinner.stop();
+    process.stdout.write('\r\x1b[K'); // Clear the spinner line
+    console.error(chalk.red(`Error: ${error.message}`));
     process.exit(1);
   }
 }

@@ -1,6 +1,6 @@
 # 🚀 Quick Start Guide
 
-Get up and running with Grepagent in 5 minutes!
+Get up and running with Derp in 5 minutes!
 
 ## Prerequisites
 
@@ -11,7 +11,7 @@ Get up and running with Grepagent in 5 minutes!
 ## Installation
 
 ```bash
-cd grepagent
+cd derp
 npm install
 npm run build
 ```
@@ -25,7 +25,7 @@ npm run build
    ```bash
    ollama pull llama3.2
    ```
-3. Configure grepagent:
+3. Configure derp:
    ```bash
    node dist/cli.js --init
    # Select: ollama
@@ -39,7 +39,7 @@ npm run build
    ```bash
    export OPENAI_API_KEY="sk-..."
    ```
-3. Configure grepagent:
+3. Configure derp:
    ```bash
    node dist/cli.js --init
    # Select: openai
@@ -50,7 +50,7 @@ npm run build
 
 1. Download LM Studio from https://lmstudio.ai
 2. Load a model and start the server
-3. Configure grepagent:
+3. Configure derp:
    ```bash
    node dist/cli.js --init
    # Select: lmstudio
@@ -166,7 +166,7 @@ node dist/cli.js "dates in MM/DD/YYYY format" . --explain
 
 ### "Configuration not found"
 - Run `node dist/cli.js --init` to create config
-- Or manually create `~/.grepagent.json`
+- Or manually create `~/.derp.json`
 
 ## What's Next?
 

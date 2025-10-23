@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Provider, CompletionResult } from './base.js';
+import { Provider, CompletionResult, parseCompletionResult } from './base.js';
 
 export class BedrockProvider implements Provider {
   constructor(private url: string, private model: string = 'anthropic.claude-v2') {}
@@ -19,7 +19,8 @@ export class BedrockProvider implements Provider {
             { role: 'user', content: userPrompt }
           ],
           temperature: 0.1,
-          max_tokens: 500,
+          max_tokens: 512,
+          response_format: { type: 'json_object' }
         },
         {
           headers: {
@@ -29,19 +30,11 @@ export class BedrockProvider implements Provider {
         }
       );
 
-      const content = response.data.choices?.[0]?.message?.content || 
+      const content = response.data.choices?.[0]?.message?.content ||
                      response.data.content?.[0]?.text || '';
-      const regex = this.extractRegex(content);
-      
-      return { regex, explanation: content };
+      return parseCompletionResult(content);
     } catch (error: any) {
       throw new Error(`Bedrock API error: ${error.message}`);
     }
-  }
-
-  private extractRegex(content: string): string {
-    const lines = content.trim().split('\n');
-    const cleaned = lines[0].replace(/^["'`]|["'`]$/g, '').trim();
-    return cleaned;
   }
 }
