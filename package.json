@@ -7,6 +7,12 @@
   "bin": {
     "derp": "dist/cli.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "build": "tsc",
     "build:binaries": "npm run build && npx @yao-pkg/pkg . --targets node18-macos-x64,node18-linux-x64 --output dist/bin/derp",
