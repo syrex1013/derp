@@ -1,10 +1,11 @@
 {
-  "name": "derp",
+  "name": "grepagent",
   "version": "0.1.1",
   "description": "Natural language grep for regex-challenged developers (because regex is hard, okay?)",
   "main": "dist/cli.js",
   "type": "module",
   "bin": {
+    "grepagent": "dist/cli.js",
     "derp": "dist/cli.js"
   },
   "files": [
@@ -42,12 +43,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/syrex1013/derp.git"
+    "url": "git+https://github.com/syrex1013/grepagent.git"
   },
   "bugs": {
-    "url": "https://github.com/syrex1013/derp/issues"
+    "url": "https://github.com/syrex1013/grepagent/issues"
   },
-  "homepage": "https://github.com/syrex1013/derp#readme",
+  "homepage": "https://github.com/syrex1013/grepagent#readme",
   "engines": {
     "node": ">=18.0.0"
   },
