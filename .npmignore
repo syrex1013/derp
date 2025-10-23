@@ -1,0 +1,46 @@
+# Exclude large binaries from npm package
+dist/bin/
+
+# Source files
+src/
+tests/
+__tests__/
+
+# Build config
+tsconfig.json
+jest.config.js
+
+# Scripts
+*.sh
+
+# GitHub
+.github/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docs
+*.md
+!README.md
+!CHANGELOG.md
+
+# Homebrew formula
+*.rb
+
+# Test files
+test.txt
+
+# Temp files
+*.log
