@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "build:binaries": "npm run build && npx @yao-pkg/pkg . --targets node18-macos-x64,node18-linux-x64 --output dist/bin/derp",
+    "build:binaries": "npm run build && npx @yao-pkg/pkg . --targets node18-macos-x64,node18-linux-x64 --output dist/bin/derp --public --public-packages \"*\"",
     "dev": "node --loader ts-node/esm src/cli.ts --help",
     "prepublishOnly": "npm run build",
     "test": "echo 'Tests will run with: npx jest@29' && cross-env NODE_OPTIONS='--experimental-vm-modules' npx --yes jest@29 --passWithNoTests",
@@ -27,7 +27,8 @@
   "pkg": {
     "scripts": "dist/**/*.js",
     "assets": [],
-    "outputPath": "dist/bin"
+    "outputPath": "dist/bin",
+    "targets": ["node18-macos-x64", "node18-linux-x64"]
   },
   "keywords": [
     "grep",
