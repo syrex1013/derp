@@ -2,6 +2,7 @@ import { spawn, spawnSync } from 'child_process';
 import { which, quote } from './utils.js';
 import ora from 'ora';
 import chalk from 'chalk';
+import { globSync } from 'glob';
 
 export type Engine = 'rg' | 'grep';
 
@@ -19,6 +20,38 @@ export function resolveEngine(): { engine: Engine; path: string } {
   throw new Error('Neither ripgrep (rg) nor grep found in PATH');
 }
 
+/**
+ * Expands glob patterns in arguments to actual file paths.
+ * Non-glob arguments are passed through unchanged.
+ */
+function expandGlobPatterns(args: string[]): string[] {
+  const expanded: string[] = [];
+
+  for (const arg of args) {
+    // Check if arg looks like a glob pattern (contains *, ?, [, or is just a filename)
+    // Also check if it's not a flag (doesn't start with -)
+    if (!arg.startsWith('-') && (arg.includes('*') || arg.includes('?') || arg.includes('['))) {
+      try {
+        const matches = globSync(arg, { nodir: false, dot: true });
+        if (matches.length > 0) {
+          expanded.push(...matches);
+        } else {
+          // If no matches, pass through the pattern as-is
+          // This lets grep/rg report the error
+          expanded.push(arg);
+        }
+      } catch {
+        // If glob fails, pass through as-is
+        expanded.push(arg);
+      }
+    } else {
+      expanded.push(arg);
+    }
+  }
+
+  return expanded;
+}
+
 export function runEngine(
   engine: Engine,
   regex: string,
@@ -27,12 +60,15 @@ export function runEngine(
 ): void {
   const { path: enginePath } = resolveEngine();
 
+  // Expand glob patterns in arguments
+  const expandedArgs = expandGlobPatterns(args);
+
   // Add color support if not already specified
-  const hasColorFlag = args.some(arg => arg.startsWith('--color'));
+  const hasColorFlag = expandedArgs.some(arg => arg.startsWith('--color'));
   const colorArgs = hasColorFlag ? [] : ['--color=always'];
 
   // Correct order: grep -E 'pattern' --color=always args...
-  const finalArgs = ['-E', regex, ...colorArgs, ...args];
+  const finalArgs = ['-E', regex, ...colorArgs, ...expandedArgs];
   const command = `${engine} ${finalArgs.map(quote).join(' ')}`;
 
   if (dryRun) {
@@ -96,9 +132,12 @@ export function runEngine(
 
 export function previewMatches(engine: Engine, regex: string, args: string[], limit: number = 3): string[] {
   const { path: enginePath } = resolveEngine();
-  
-  const previewArgs = ['-E', regex, ...args];
-  
+
+  // Expand glob patterns in arguments
+  const expandedArgs = expandGlobPatterns(args);
+
+  const previewArgs = ['-E', regex, ...expandedArgs];
+
   try {
     const result = spawnSync(enginePath, previewArgs, {
       encoding: 'utf-8',
