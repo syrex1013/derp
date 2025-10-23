@@ -17,7 +17,7 @@ const CONFIG_PATH = path.join(os.homedir(), '.derp.json');
 export function loadConfig(): DerpConfig {
   const defaults: DerpConfig = {
     provider: 'ollama',
-    model: 'qwen2.5:1.5b',  // Fast, small model optimized for structured output
+    model: 'qwen2.5-coder:3b',  // Better code understanding model
     ollamaHost: process.env.OLLAMA_HOST || 'http://localhost:11434',
     lmstudioUrl: process.env.LMSTUDIO_URL || 'http://localhost:1234',
     openaiApiKey: process.env.OPENAI_API_KEY,
