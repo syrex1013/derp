@@ -180,10 +180,16 @@ jobs:
           MACOS_SHA256="${{ steps.checksums.outputs.macos_sha256 }}"
           LINUX_SHA256="${{ steps.checksums.outputs.linux_sha256 }}"
           
+          # Clone homebrew tap repo
+          git clone https://github.com/syrex1013/homebrew-derp.git /tmp/homebrew-derp
+          cd /tmp/homebrew-derp
+          
+          # Update formula
           sed -i "s/version \".*\"/version \"$VERSION\"/" derp.rb
           sed -i "s/sha256 \".*\" # macos/sha256 \"$MACOS_SHA256\" # macos/" derp.rb
           sed -i "s/sha256 \".*\" # linux/sha256 \"$LINUX_SHA256\" # linux/" derp.rb
           
+          # Commit and push to tap repo
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add derp.rb
@@ -191,8 +197,8 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to Homebrew formula"
           else
-            git commit -m "Update Homebrew formula to v$VERSION [skip ci]"
-            git push origin HEAD:main
+            git commit -m "Update formula to v$VERSION"
+            git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/syrex1013/homebrew-derp.git main
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
