@@ -101,8 +101,13 @@ async function initConfig(): Promise<void> {
 function showConfig(): void {
   printBanner();
   const config = loadConfig();
+  // Redact API keys and other secrets before logging
+  const redactedConfig = { ...config };
+  if ('openaiApiKey' in redactedConfig) redactedConfig.openaiApiKey = '[REDACTED]';
+  if ('openrouterApiKey' in redactedConfig) redactedConfig.openrouterApiKey = '[REDACTED]';
+  // Add further redaction here if other secrets are added to config in the future
   console.log(chalk.bold('Current Configuration:\n'));
-  console.log(JSON.stringify(config, null, 2));
+  console.log(JSON.stringify(redactedConfig, null, 2));
   console.log();
 }
 
