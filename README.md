@@ -432,3 +432,7 @@ Made with ❤️ by the Derp community
 
 </div>
 
+## GitAds Sponsored
+[![Sponsored by GitAds](https://gitads.dev/v1/ad-serve?source=syrex1013/derp@github)](https://gitads.dev/v1/ad-track?source=syrex1013/derp@github)
+
+
